@@ -1213,7 +1213,7 @@ body.th-note .mf .section-head::after{margin-top:-13px}
 .an-selbar b{font:700 15px "IBM Plex Mono",ui-monospace,monospace;margin-right:6px}.an-selbar .sp{width:6px;flex:none}
 .arcn .an-selbar button{height:34px;padding:0 12px;border:0;border-radius:8px;background:none;color:#fff;font-weight:600;font-size:13px;flex:none}
 .arcn .an-selbar button:hover{background:#ffffff1f}.arcn .an-selbar button.d{color:#ff8a80}.arcn .an-selbar .an-ib{width:34px;padding:0;color:#fff9}
-.an-bed{position:fixed;bottom:0;height:150px;overflow:hidden;pointer-events:none;z-index:40;padding-bottom:env(safe-area-inset-bottom,0px)}.an-bed[hidden]{display:none}
+.an-bed{position:fixed;bottom:0;height:150px;overflow:hidden;pointer-events:none;z-index:40;padding-bottom:env(safe-area-inset-bottom,0px)}.an-bed[hidden]{display:none}.an-bed.an-bed-0{visibility:hidden}.an-dragging>.an-bed.an-bed-0{visibility:visible}
 .arcn .an-bd{position:absolute;left:0;bottom:14px;width:290px;height:104px;border:0;padding:0;background:none;pointer-events:auto;transform:translateX(-62%);transition:transform .45s cubic-bezier(.3,1.25,.45,1),filter .22s,opacity .22s;border-radius:0;color:var(--fg)}
 .arcn .an-bd:hover,.arcn .an-bd:focus-visible,.arcn .an-bd.an-dropin,.arcn.an-dragging .an-bd{transform:translateX(14px)}
 .an-bd-in{position:absolute;left:8px;right:8px;top:20px;height:30px;overflow:hidden;background:var(--bg,var(--surface));box-shadow:inset 0 0 0 1.5px var(--fg)}
@@ -3794,7 +3794,7 @@ var cmOpenId=null;function cmTryOpen(){if(cmOpenId)window.dispatchEvent(new Even
 function cmWrapBridge(){let b=window.__cmBridge;if(!b||b.__w)return;b.__w=!0;["setJob","delJob","setTpl","delTpl","setCfg"].forEach((k)=>{let f=b[k];b[k]=(...a)=>{let r=f(...a);window.__cmSig=cmSig();return r}})}
 cmWrapBridge();
 
-window.DB_SHARE=1;var BUILD_V="1793006761180";try{document.documentElement.classList.add("sbt")}catch(_){}
+window.DB_SHARE=1;var BUILD_V="1793007408902";try{document.documentElement.classList.add("sbt")}catch(_){}
 function webUpd(auto,man){try{if(window.planner||!/^\d+$/.test(BUILD_V)||location.protocol==="file:")return;if(auto&&!man){let ae=document.activeElement;if(ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)||ae&&ae.isContentEditable||document.querySelector(".modal"))return}fetch("./version.json?t="+Date.now(),{cache:"no-store"}).then((r)=>r.ok?r.json():null).then((jv)=>{if(!jv||!jv.v||String(jv.v)===BUILD_V){if(man)j("최신 버전이에요");return}if(document.getElementById("upd-banner"))return;let d=document.createElement("div");d.id="upd-banner";d.style.cssText="position:fixed;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top,0px));z-index:9999;display:flex;align-items:center;gap:10px;padding:11px 12px 11px 16px;border-radius:14px;background:#2b2b33;color:#fff;font:600 14px/1.3 system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.3)";let t=document.createElement("span");t.style.flex="1";t.textContent="새 버전이 나왔어요"+(jv.app&&jv.app!==APP_VER?` · ${APP_VER} → ${jv.app}`:"");let go=document.createElement("button");go.type="button";go.textContent="업데이트";go.style.cssText="border:0;border-radius:10px;padding:7px 12px;background:#fff;color:#222;font:700 13px system-ui,sans-serif";go.onclick=()=>{go.textContent="적용 중…";fetch("./index.html",{cache:"reload"}).catch(()=>{}).then(()=>location.reload())};let x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label","닫기");x.style.cssText="border:0;background:none;color:#fff;font-size:20px;line-height:1;padding:0 4px;opacity:.7";x.onclick=()=>d.remove();d.append(t,go,x);document.body.appendChild(d)}).catch(()=>{if(man)j("업데이트를 확인하지 못했어요")})}catch(_){}}
 if(typeof window!=="undefined"){setTimeout(()=>webUpd(!1),700);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")webUpd(!0)});window.addEventListener("pageshow",()=>webUpd(!0));window.addEventListener("focus",()=>webUpd(!0));window.addEventListener("online",()=>webUpd(!0));setInterval(()=>webUpd(!0),90000)}
 (function(){if(typeof document==="undefined")return;var t=0,run=function(){clearTimeout(t);t=setTimeout(function(){requestAnimationFrame(function(){try{var m=document.querySelector('meta[name="theme-color"]');if(!m)return;var c=getComputedStyle(document.body).backgroundColor;if(c&&c!=="rgba(0, 0, 0, 0)")m.setAttribute("content",c)}catch(_){}})},60)};var mo=new MutationObserver(run);mo.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme","style","class"]});document.addEventListener("DOMContentLoaded",function(){mo.observe(document.body,{attributes:!0,attributeFilter:["class","style"]});run()});window.addEventListener("pageshow",run);window.addEventListener("focus",run);if(window.matchMedia)try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",run)}catch(_){}setInterval(run,4000)})();
@@ -6024,7 +6024,7 @@ function arcnMount(host){
       d.addEventListener("drop",(e)=>{if(!dragId)return;e.preventDefault();e.stopPropagation();boxDrop()});
       d.addEventListener("click",(e)=>{if(e.target.closest("[data-box]"))openBox()})}
     d.innerHTML=`<button type="button" class="an-bd" data-box aria-label="보관함 ${L.length}"><span class="an-bd-in">${L.slice(0,7).map((it,k)=>`<i style="left:${6+k*12.6}%;--r:${((k*37)%9)-4}deg" ${covA(it,1)}></i>`).join("")}</span><span class="an-bd-lid"></span><span class="an-bd-f"><span class="an-bd-hd"></span><b>${L.length}</b></span></button>`;
-    hydrate(d);placeBed()};
+    d.classList.toggle("an-bed-0",!L.length);hydrate(d);placeBed()};
   const openBox=()=>{closePop();let old=$(".an-sed");if(old)old.remove();let w=document.createElement("div");w.className="an-sed an-bxd";let bt=fTag,close=()=>w.remove();
     let draw=()=>{let A=S.items.filter(inBox),cnt=(id)=>A.filter((i)=>id==="all"||i.tags.includes(id)).length;if(bt!=="all"&&!tagById(bt))bt="all";
       let L=A.filter((i)=>bt==="all"||i.tags.includes(bt)).sort((a,b)=>(b.created||0)-(a.created||0));
@@ -7906,7 +7906,7 @@ var GH={on:!1,open(){},close(){},toggle(){}};
 .gh-log table{width:100%;border-collapse:collapse}.gh-log th{text-align:left;font-weight:400;background:linear-gradient(#fff,#EBEADB);border-bottom:2px solid #D6D2C2;padding:4px 8px;white-space:nowrap}
 .gh-log td{padding:5px 8px;border-top:1px solid #EFEDE4;font-variant-numeric:tabular-nums}.gh-log .miss{color:#B23A2E;font-weight:700}
 body:has(.gh-bal) .ctxmenu,body:has(.gh-pup) .ctxmenu{z-index:2000!important}
-@media (max-width:899px){body:has(.m-setwrap) .gh-pup:not(.is-on){opacity:0!important;pointer-events:none!important}.gh-in{font-size:16px!important}.gh-pup{width:52px;height:51px}.gh-tag{font-size:10px;bottom:-8px}.gh-bal{padding:14px}.gh-res{max-height:180px}}
+@media (max-width:899px){body:has(.m-setwrap) .gh-pup:not(.is-on){opacity:0!important;pointer-events:none!important}.gh-in{font-size:16px!important}.gh-pup{width:52px;height:51px;transition:left .25s ease,top .25s ease,opacity .2s}.gh-pup.is-over{opacity:.3}.gh-tag{font-size:10px;bottom:-8px}.gh-bal{padding:14px}.gh-res{max-height:180px}}
 @media (prefers-reduced-motion:reduce){.gh-pup img,.gh-spot,.gh-bar i,.gh-dig img{animation:none!important}}`;document.head.append(st);
   let ph=()=>innerWidth<900,SZ=()=>ph()?{w:52,h:51}:{w:72,h:71},pkey=()=>ph()?"dbGhPosM":"dbGhPos2",pup=null,bal=null,inp=null,box=null,pos=null,sel=0,T=null,done=!1,withRec=ghLs("dbGhRec")!=="0",calm=ghLs("dbGhCalm")==="1",lastTalk="",tt=0;
   let bounds=()=>{let W=innerWidth,H=innerHeight,{w,h}=SZ(),l=12,r=W-w-14,top=12,bot=H-h-112;if(ph()){let hd=document.querySelector(".m-head, .m-top");top=hd?hd.getBoundingClientRect().bottom+8:72;let dk=[...document.querySelectorAll(".m-main .qbar, .mdk-band")].map((e)=>e.getBoundingClientRect()).filter((r)=>r.height>0&&r.top>H*0.5).sort((a,b)=>a.top-b.top)[0];bot=(dk?dk.top:H-70)-h-14;l=14}else{let sb=document.querySelector(".app>nav.sidebar");if(sb)l=sb.getBoundingClientRect().right+14;let rl=document.querySelector(".dayrail--d");if(rl&&rl.getBoundingClientRect().width>0)r=rl.getBoundingClientRect().left-w-14}return{l,r,top,bot,w,h}};
@@ -7976,7 +7976,14 @@ body:has(.gh-bal) .ctxmenu,body:has(.gh-pup) .ctxmenu{z-index:2000!important}
     pup.addEventListener("click",(e)=>{if(e.detail===0)toggle()});
     pup.addEventListener("contextmenu",(e)=>{e.preventDefault();if(e.pointerType&&e.pointerType!=="mouse")return;ctx(e)});
     let rt=0;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{load();if(bal)posBal()},150)});
-    /* 독이나 타임테이블이 늦게 뜨면 자리 다시 맞춤 */setTimeout(load,1500)};
+    /* 독이나 타임테이블이 늦게 뜨면 자리 다시 맞춤 */setTimeout(load,1500);
+    /* 폰: 글자 위에 앉으면 흐리게 (스크롤하면·1.5초마다 확인) */
+    let ovT=0,ovChk=()=>{if(!pup||pup.hidden)return;let on=!1;if(ph()&&!pup.classList.contains("is-on")&&!pup.classList.contains("is-drag")){let r=pup.getBoundingClientRect(),hit=(q)=>q.right>r.left&&q.left<r.right&&q.bottom>r.top&&q.top<r.bottom;
+      for(let fy of [.25,.5,.8]){for(let fx of [.2,.5,.8]){let el=document.elementsFromPoint(r.left+r.width*fx,r.top+r.height*fy).find((e)=>!pup.contains(e)&&!e.closest(".gh-bal"));if(!el||el===document.body||el===document.documentElement)continue;
+        if(/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)){on=!0;break}
+        for(let n of el.childNodes){if(n.nodeType===3&&n.textContent.trim()){let g=document.createRange();g.selectNodeContents(n);if([...g.getClientRects()].some(hit)){on=!0;break}}}if(on)break}if(on)break}}
+      pup.classList.toggle("is-over",on)},ovQ=()=>{clearTimeout(ovT);ovT=setTimeout(ovChk,120)};
+    window.addEventListener("scroll",ovQ,!0);setInterval(ovChk,1500)};
   let posBal=()=>{if(!bal)return;let k=fxK(),W=innerWidth/k,H=innerHeight/k,{w,h}=SZ(),left=pos.x+w/2<W/2,below=pos.y<H*0.45,tl=bal.querySelector(".gh-tail");bal.classList.toggle("is-left",left);bal.classList.toggle("is-below",below);bal.style.left=bal.style.right=bal.style.top=bal.style.bottom="";
     if(ph()){bal.style.left="12px";bal.style.right="12px";bal.style.width="auto";tl.style.left=Math.max(14,Math.min(W-24-42,pos.x+w/2-26))+"px";tl.style.right="auto"}else{if(left)bal.style.left=Math.max(8,pos.x-10)+"px";else bal.style.right=Math.max(8,W-pos.x-w-10)+"px";tl.style.left=tl.style.right=""}
     if(below)bal.style.top=(pos.y+h+20)+"px";else bal.style.bottom=(H-pos.y+18)+"px"};
