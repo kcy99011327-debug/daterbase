@@ -8,6 +8,7 @@ Daterbase uses the following open source software and fonts.
 - JSZip 3.10.1 — MIT (dual MIT/GPLv3, used under MIT) — Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
 - pako (JSZip에 포함) — MIT — Copyright (C) 2014-2017 by Vitaly Puzrin and Andrei Tuputcyn
 - html2canvas — MIT — Copyright (c) 2012 Niklas von Hertzen
+- gifenc 1.0.3 — MIT — Copyright (c) 2017 Matt DesLauriers
 - sql.js 1.10.3 — MIT — Copyright (c) 2017 sql.js authors
 - onnxruntime-web 1.20.1 — MIT — Copyright (c) Microsoft Corporation
 - Transformers.js 3.5.1 — Apache License 2.0 — Copyright Hugging Face
