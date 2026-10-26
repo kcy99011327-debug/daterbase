@@ -77,7 +77,7 @@ async function show(pw,save){try{const h=await open_(pw);PW=pw;const m=document.
 document.getElementById("gf").addEventListener("submit",async(e)=>{e.preventDefault();const v=document.getElementById("pw").value;const er=document.getElementById("ge");er.textContent="여는 중…";if(!(await show(v,!0)))er.textContent="비밀번호가 맞지 않아요"});
 (async()=>{let v=null;try{v=sessionStorage.getItem("dbg_pw")}catch(_){}if(v)await show(v,!1)})();
 /* 주인 수정: GitHub 토큰이 있는 브라우저에서만 */
-const GH={o:"kcy99011327-debug",r:"daterbase",p:"guide/index.html",b:"main"};
+const GH={o:"daterbase",r:"daterbase",p:"guide/index.html",b:"main"};
 addEventListener("hashchange",()=>{const m=document.getElementById("doc");if(m&&!m.hidden)edUI()});
 const tok=()=>{try{return localStorage.getItem("dbg_gh")||""}catch(_){return""}};
 function edUI(){if(document.getElementById("edb"))return;if(!tok()){if(/[?#&]edit\b/.test(location.search+location.hash)&&!document.getElementById("edk")){const f=document.createElement("form");f.id="edk";f.innerHTML='<input type="password" placeholder="GitHub 토큰" autocomplete="off"><button>확인</button>';f.onsubmit=(e)=>{e.preventDefault();const v=f.querySelector("input").value.trim();if(!v)return;try{localStorage.setItem("dbg_gh",v)}catch(_){}f.remove();edUI()};document.body.appendChild(f);f.querySelector("input").focus()}return}

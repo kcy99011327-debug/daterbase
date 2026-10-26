@@ -1875,128 +1875,6 @@ if(document.body)start();else document.addEventListener("DOMContentLoaded",start
 ["alert","confirm","prompt"].forEach(function(f){var o=window[f];if(!o)return;window[f]=function(msg){var a=[].slice.call(arguments);if(typeof msg=="string"){var t=tr(msg);if(t!=null)a[0]=t}return o.apply(window,a)}});
 window.dbTr=function(s){var t=tr(String(s));return t==null?s:t};
 })();
-</script><script>(function(){var L=null,S=null;try{S=localStorage;L=S.getItem("dbLang")}catch(e){}if(!L){var nl=String(navigator.language||"ko").toLowerCase(),old=0;try{old=!!(S&&S.getItem("petal-planner:v1"))}catch(e){}L=old||nl.indexOf("ko")==0?"ko":nl.indexOf("ja")==0?"ja":"en"}var H={"en": "1f66e8d3bb", "ja": "8eb6e40be1"};if(H[L])document.write('<script src="i18n_'+L+'.js?v='+H[L]+'"><\/script>')})();</script><script>/* Daterbase 다국어 (배포용). 화면 글자를 표에서 찾아 바꾼다. 원본 한국어는 그대로 두고 보이는 글자만 바꾼다.
-   언어: localStorage dbLang = ko|en|ja. 없으면 기존 사용자는 ko, 새 사용자는 브라우저 언어.
-   ?i18n=miss 이면 번역 못 한 글자를 window.__i18nMiss에 모은다 (번역표 채우기용). */
-(function(){
-var K="dbLang",LS=null;try{LS=localStorage}catch(e){}
-var L=null;try{L=LS&&LS.getItem(K)}catch(e){}
-if(!L){var nl=String(navigator.language||"ko").toLowerCase(),old=0;try{old=!!(LS&&LS.getItem("petal-planner:v1"))}catch(e){}
-L=old||nl.indexOf("ko")==0?"ko":nl.indexOf("ja")==0?"ja":"en"}
-if(L!="en"&&L!="ja")L="ko";
-window.DB_LANG=L;
-window.dbSetLang=function(l){try{LS.setItem(K,l)}catch(e){}location.reload()};
-try{document.documentElement.lang=L}catch(e){}
-if(L=="ko")return;
-// 돈 단위 (베타 cur): localStorage dbCur = KRW|USD|JPY. 고른 사람만 ₩·ウォン 표시를 바꾼다
-var CU=null;try{CU=LS&&LS.getItem("dbCur")}catch(e){}
-var CS={USD:["$","ドル"],JPY:["¥","円"]}[CU]||null;window.DB_CUR=CS?CU:"KRW";
-function cur(v){return CS&&v?v.replace(/₩/g,CS[0]).replace(/ウォン/g,CS[1]):v}
-var D=(window.DB_I18N||{})[L]||{t:{},r:[]},T=D.t||{},R=[];
-// 날짜는 표보다 먼저 본다 (영어는 달 이름으로)
-var MO=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],MF=["January","February","March","April","May","June","July","August","September","October","November","December"];
-function mo(n,f){n=+n;return n>=1&&n<=12?(f?MF:MO)[n-1]:null}
-var PR=L=="en"?[
- [/^(\d{4})년 ?(\d{1,2})월$/,function(m){var x=mo(m[2],1);return x&&x+" "+m[1]}],
- [/^(\d{4})년 (\d{1,2})월 (\d{1,2})일$/,function(m){var x=mo(m[2]);return x&&x+" "+(+m[3])+", "+m[1]}],
- [/^(\d{1,2})월$/,function(m){return mo(m[1])}],
- [/^(\d{1,2})월 (\d{1,2})일$/,function(m){var x=mo(m[1]);return x&&x+" "+(+m[2])}],
- [/^(\d{1,2})월 (\d{1,2})일 ?\(([일월화수목금토])\)$/,function(m){var x=mo(m[1]);return x&&x+" "+(+m[2])+" ("+T[m[3]]+")"}],
- [/^(\d{1,2})월 (\d{1,2})일 ([일월화수목금토])요일$/,function(m){var x=mo(m[1]);return x&&T[m[3]]+", "+x+" "+(+m[2])}],
- [/^$/,function(){return null}]
-]:[
- [/^(\d{4})년 ?(\d{1,2})월$/,function(m){return m[1]+"年"+(+m[2])+"月"}],
- [/^(\d{4})년 (\d{1,2})월 (\d{1,2})일$/,function(m){return m[1]+"年"+(+m[2])+"月"+(+m[3])+"日"}],
- [/^(\d{1,2})월 (\d{1,2})일$/,function(m){return (+m[1])+"月"+(+m[2])+"日"}],
- [/^(\d{1,2})월 (\d{1,2})일 ?\(([일월화수목금토])\)$/,function(m){return (+m[1])+"月"+(+m[2])+"日 ("+T[m[3]]+")"}],
- [/^(\d{1,2})월 (\d{1,2})일 ([일월화수목금토])요일$/,function(m){return (+m[1])+"月"+(+m[2])+"日 "+T[m[3]]+"曜日"}],
- [/^(\d{1,2})일$/,function(m){return m[1]+"日"}]
-];
-// 언어별 화면 보정: 일본어 줄바꿈·글꼴, aria-label을 글자로 쓰는 곳
-(function(){var c="html:not([lang=ko]) body .m-help .m-help__row.is-more .mico[data-al]::after{content:attr(data-al)}";
- if(L=="en")c+="html[lang=en] .lcal__wd span{width:auto;min-width:26px;white-space:nowrap}html[lang=en] .stamp-grid__wd,html[lang=en] .railcal__w{white-space:nowrap;overflow:visible}";
- if(L=="ja")c+="html[lang=ja] body,html[lang=ja] body *{word-break:normal!important;line-break:strict;overflow-wrap:break-word}html[lang=ja]{--font-body:\"Pretendard Variable\",\"Hiragino Sans\",\"Hiragino Kaku Gothic ProN\",\"Yu Gothic UI\",Meiryo,system-ui,sans-serif}";
- var st=document.createElement("style");st.id="db-i18n-css";st.textContent=c;(document.head||document.documentElement).appendChild(st)})();
-(D.r||[]).forEach(function(x){try{R.push([new RegExp(x[0]),x[1]])}catch(e){}});
-var MISS=/[?&]i18n=miss/.test(location.search),miss=window.__i18nMiss=MISS?{}:null;
-var HAN=/[가-힣]/,orig=new WeakMap(),mine=new WeakMap(),amine=new WeakMap();
-var NUM=/\d[\d,.:]*/g,SEP=/( · | › | \/ |, )/,C=new Map(),TP=null;
-function fill(v,a){return v.replace(/\{(\d)\}/g,function(_,i){var g=a[+i];if(g==null)return "";if(HAN.test(g)){var t=tr(g,1);if(t!=null)return t}return g})}
-function tpl(){TP=[];for(var k in T){if(k.indexOf("{")<0)continue;var fx=k.replace(/\{\d\}/g,"");if((fx.match(/[가-힣]/g)||[]).length<3)continue;
-  var ord=[],re=k.replace(/[.*+?^$()|[\]\\]/g,"\\$&").replace(/\{(\d)\}/g,function(_,i){ord.push(+i);return "(.+?)"}).replace(/[{}]/g,"\\$&");
-  try{TP.push([new RegExp("^"+re+"$"),ord,T[k]])}catch(e){}}}
-function look(k){
-  var v=T[k];if(v!=null)return v;
-  for(var p=0;p<PR.length;p++){var pm=PR[p][0].exec(k);if(pm){var pv=PR[p][1](pm);if(pv!=null)return pv}}
-  var ns=[],tk=k.replace(NUM,function(d){ns.push(d);return "{"+(ns.length-1)+"}"});
-  if(ns.length&&(v=T[tk])!=null)return fill(v,ns);
-  if(!TP)tpl();
-  for(var i=0;i<TP.length;i++){var m=TP[i][0].exec(k);if(m){var a=[];TP[i][1].forEach(function(o,j){a[o]=m[j+1]});return fill(TP[i][2],a)}}
-  for(i=0;i<R.length;i++)if(R[i][0].test(k))return k.replace(R[i][0],R[i][1]);
-  // 앞에 붙은 번호(1.1 …)나 날짜(10월 23일 (금) …)는 떼고 나머지를 찾는다
-  var g=/^(\d+(?:\.\d+)*\.?|\d{1,2}월 \d{1,2}일(?: ?\([일월화수목금토]\))?)\s+([\s\S]+)$/.exec(k);
-  if(g&&HAN.test(g[2])){var gb=tr(g[2],1);if(gb!=null){var ga=HAN.test(g[1])?look(g[1]):g[1];if(ga!=null)return ga+" "+gb}}
-  g=/^([\s\S]*?[가-힣][\s\S]*?) (\d{4}-\d{1,2}-\d{1,2}[^가-힣]*)$/.exec(k);// 뒤에 붙은 날짜
-  if(g){gb=tr(g[1],1);if(gb!=null)return gb+" "+g[2]}
-  return null}
-function tr(s,inner){
-  if(!s||!HAN.test(s))return null;
-  if(C.has(s)){var c=C.get(s);if(c!=null||inner||!miss)return c}
-  var r=tr0(s,inner);if(C.size>8000)C.clear();C.set(s,r);return r}
-function tr0(s,inner){
-  var m=/^(\s*)([\s\S]*?)(\s*)$/.exec(s),k=m[2],v=look(k);
-  if(v==null&&/\s\s|\n/.test(k))v=look(k.replace(/\s+/g," "));
-  if(v==null&&SEP.test(k)){var ps=k.split(SEP),ok=1;
-    for(var i=0;i<ps.length;i+=2){if(!HAN.test(ps[i]))continue;var t=tr(ps[i]);if(t==null)ok=0;else ps[i]=t}
-    if(ok)v=ps.join("");else return null}
-  if(v==null){if(miss&&!inner){var c=0,tk=k.replace(NUM,function(){return "{"+(c++)+"}"});miss[tk]=(miss[tk]||0)+1}return null}
-  return cur(m[1]+v+m[3])}
-function skip(el){for(var e=el;e&&e.nodeType==1;e=e.parentNode){var t=e.tagName;if(t=="TEXTAREA"||t=="SCRIPT"||t=="STYLE"||t=="CODE"||t=="PRE"||e.isContentEditable||e.hasAttribute("data-noi18n"))return true}return false}
-function setText(n,v){mine.set(n,v);if(n.nodeValue!==v)n.nodeValue=v}
-function doText(n){
-  var p=n.parentNode;if(!p||p.nodeType!=1)return;
-  if(mine.has(n)&&n.nodeValue===mine.get(n))return;
-  orig.set(n,n.nodeValue);mine.delete(n);
-  if(skip(p))return;
-  // 숫자와 글자가 쪼개진 줄은 합쳐서 찾는다
-  var cs=p.childNodes,all=cs.length>1;
-  for(var i=0;i<cs.length&&all;i++)if(cs[i].nodeType!=3)all=false;
-  if(all){var full="";for(i=0;i<cs.length;i++)full+=orig.has(cs[i])?orig.get(cs[i]):cs[i].nodeValue;
-    var vf=tr(full);
-    if(vf!=null){for(i=0;i<cs.length;i++){if(!orig.has(cs[i]))orig.set(cs[i],cs[i].nodeValue);setText(cs[i],i?"":vf)}return}
-    for(i=0;i<cs.length;i++)if(cs[i]!==n&&mine.has(cs[i])&&mine.get(cs[i])===""){setText(cs[i],orig.get(cs[i]))}}
-  var v=tr(n.nodeValue);if(v==null&&CS&&n.nodeValue.indexOf("₩")>=0)v=cur(n.nodeValue);if(v!=null)setText(n,v)}
-var AT=["placeholder","title","aria-label","alt","data-ph","data-tip","data-chl"];// aria-label은 앱이 선택자로 쓰므로 그대로 두고 번역은 data-al에 둔다
-function doAttr(el,a){
-  var v=el.getAttribute(a);if(v==null)return;
-  var mm=amine.get(el);if(mm&&mm[a]===v)return;
-  if(el.closest&&el.closest("[data-noi18n]"))return;
-  var t=tr(v);if(t==null&&CS&&v.indexOf("₩")>=0)t=cur(v);if(a=="aria-label"){if(t!=null)el.setAttribute("data-al",t);return}
-  if(t!=null){if(!mm)amine.set(el,mm={});mm[a]=t;el.setAttribute(a,t)}}
-function walk(root){
-  if(root.nodeType==3){doText(root);return}
-  if(root.nodeType!=1)return;
-  for(var i=0;i<AT.length;i++)if(root.hasAttribute(AT[i]))doAttr(root,AT[i]);
-  var w=document.createTreeWalker(root,5,null),n;
-  while(n=w.nextNode()){if(n.nodeType==3)doText(n);else for(i=0;i<AT.length;i++)if(n.hasAttribute(AT[i]))doAttr(n,AT[i])}}
-function start(){
-  walk(document.body);
-  new MutationObserver(function(ms){for(var i=0;i<ms.length;i++){var m=ms[i];
-    if(m.type=="characterData")doText(m.target);
-    else if(m.type=="attributes")doAttr(m.target,m.attributeName);
-    else for(var j=0;j<m.addedNodes.length;j++)walk(m.addedNodes[j])}})
-  .observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:AT})}
-// 앱이 화면 글자로 판단하는 곳(설정 묶음 나누기·튜토리얼 버튼 찾기 등)은 원래 한국어를 읽게 한다
-function origText(el){var w=document.createTreeWalker(el,4,null),n,o="";while(n=w.nextNode()){var v=n.nodeValue;if(mine.has(n)&&mine.get(n)===v&&orig.has(n))v=orig.get(n);o+=v}return o}
-try{var TCd=Object.getOwnPropertyDescriptor(Node.prototype,"textContent");
- Object.defineProperty(Node.prototype,"textContent",{configurable:true,enumerable:TCd.enumerable,set:TCd.set,
-  get:function(){return this.nodeType==1||this.nodeType==11?origText(this):TCd.get.call(this)}})}catch(e){}
-window.dbOrigText=origText;
-if(document.body)start();else document.addEventListener("DOMContentLoaded",start);
-// 알림창·확인창 글자
-["alert","confirm","prompt"].forEach(function(f){var o=window[f];if(!o)return;window[f]=function(msg){var a=[].slice.call(arguments);if(typeof msg=="string"){var t=tr(msg);if(t!=null)a[0]=t}return o.apply(window,a)}});
-window.dbTr=function(s){var t=tr(String(s));return t==null?s:t};
-})();
 </script><script type="module">if(window.__dbRedir)throw Error("m.html");function lsJ(k,d){try{return JSON.parse(localStorage.getItem(k)||d)}catch(_){return JSON.parse(d)}}
 try{if(window.parent!==window&&/[?&]dbprev=/.test(location.search)){window.DB_PREV=1;if(/[?&]dbprev=share/.test(location.search))window.DB_SHARE=1;if(/[?&]dbbeta=1/.test(location.search))window.DB_PREV_BETA=1;let pp=null;try{pp=window.parent.planner}catch(_){}if(pp&&!window.planner){let ar={wgList:1,bkList:1,listProcesses:1},t={isElectron:!0,platform:pp.platform||"win32",embedBase:null,onActivity:()=>()=>{}};window.planner=new Proxy(t,{get:(o,k)=>k in o?o[k]:typeof k==="string"&&!/^dev|^then$/.test(k)?()=>Promise.resolve(ar[k]?[]:null):void 0})}}}catch(_){}
 var lx=Object.create;var{getPrototypeOf:sx,defineProperty:Du,getOwnPropertyNames:cx}=Object;var Lu=Object.prototype.hasOwnProperty;function dx(e){return this[e]}var ux,px,Au=(e,t,n)=>{var r=e!=null&&typeof e==="object";if(r){var a=t?ux??=new WeakMap:px??=new WeakMap,o=a.get(e);if(o)return o}n=e!=null?lx(sx(e)):{};let i=t||!e||!e.__esModule||!Lu.call(e,"default")?Du(n,"default",{value:e,enumerable:!0}):n;if(e&&typeof e==="object"||typeof e==="function"){for(let l of cx(e))if(!Lu.call(i,l))Du(i,l,{get:dx.bind(e,l),enumerable:!0})}if(r)a.set(e,i);return i};var Iu=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var Al=(e,t,n)=>()=>{if(e)try{t=e(e=0)}catch(r){n=[r]}if(n)throw n[0];return t};function ra(e,t,n){this.props=e,this.context=t,this.refs=Pu,this.updater=n||Tu}function Ru(){}function Ou(e,t,n){this.props=e,this.context=t,this.refs=Pu,this.updater=n||Tu}var fx,mx,Tu,gx,Pu,Il,hx,Vt,xx,vx,aa,Tl=function(e){return e={$$typeof:mx,_currentValue:e,_currentValue2:e,_threadCount:0,Provider:null,Consumer:null,_defaultValue:null,_globalName:null},e.Provider={$$typeof:fx,_context:e},e.Consumer=e},Pl=function(e,t){return Vt.current.useCallback(e,t)},Rl=function(e){return Vt.current.useContext(e)},Y=function(e,t){return Vt.current.useEffect(e,t)},$n=function(e,t){return Vt.current.useLayoutEffect(e,t)},me=function(e,t){return Vt.current.useMemo(e,t)},q=function(e){return Vt.current.useRef(e)},z=function(e){return Vt.current.useState(e)},oa=function(e,t,n){return Vt.current.useSyncExternalStore(e,t,n)};var ae=Al(()=>{fx=Symbol.for("react.provider"),mx=Symbol.for("react.context"),Tu={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},gx=Object.assign,Pu={};ra.prototype.isReactComponent={};ra.prototype.setState=function(e,t){if(typeof e!=="object"&&typeof e!=="function"&&e!=null)throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,e,t,"setState")};ra.prototype.forceUpdate=function(e){this.updater.enqueueForceUpdate(this,e,"forceUpdate")};Ru.prototype=ra.prototype;Il=Ou.prototype=new Ru;Il.constructor=Ou;gx(Il,ra.prototype);Il.isPureReactComponent=!0;hx={current:null},Vt={current:null},xx={transition:null},vx={ReactCurrentDispatcher:Vt,ReactCurrentBatchConfig:xx,ReactCurrentOwner:hx};aa=vx});var Ku=Iu(function(pr){function Fl(e,t){var n=e.length;e.push(t);e:for(;0<n;){var r=n-1>>>1,a=e[r];if(0<Do(a,t))e[r]=t,e[n]=a,n=r;else break e}}function vt(e){return e.length===0?null:e[0]}function To(e){if(e.length===0)return null;var t=e[0],n=e.pop();if(n!==t){e[0]=n;e:for(var r=0,a=e.length,o=a>>>1;r<o;){var i=2*(r+1)-1,l=e[i],c=i+1,d=e[c];if(0>Do(l,n))c<a&&0>Do(d,l)?(e[r]=d,e[c]=n,r=c):(e[r]=l,e[i]=n,r=i);else if(c<a&&0>Do(d,n))e[r]=d,e[c]=n,r=c;else break e}}return t}function Do(e,t){var n=e.sortIndex-t.sortIndex;return n!==0?n:e.id-t.id}if(typeof performance==="object"&&typeof performance.now==="function")Bl=performance,pr.unstable_now=function(){return Bl.now()};else Lo=Date,$l=Lo.now(),pr.unstable_now=function(){return Lo.now()-$l};var Bl,Lo,$l,It=[],sn=[],yx=1,it=null,Fe=3,Po=!1,jn=!1,la=!1,$u=typeof setTimeout==="function"?setTimeout:null,ju=typeof clearTimeout==="function"?clearTimeout:null,Bu=typeof setImmediate<"u"?setImmediate:null;typeof navigator<"u"&&navigator.scheduling!==void 0&&navigator.scheduling.isInputPending!==void 0&&navigator.scheduling.isInputPending.bind(navigator.scheduling);function jl(e){for(var t=vt(sn);t!==null;){if(t.callback===null)To(sn);else if(t.startTime<=e)To(sn),t.sortIndex=t.expirationTime,Fl(It,t);else break;t=vt(sn)}}function Ul(e){if(la=!1,jl(e),!jn)if(vt(It)!==null)jn=!0,Kl(Yl);else{var t=vt(sn);t!==null&&Wl(Ul,t.startTime-e)}}function Yl(e,t){jn=!1,la&&(la=!1,ju(sa),sa=-1),Po=!0;var n=Fe;try{jl(t);for(it=vt(It);it!==null&&(!(it.expirationTime>t)||e&&!Yu());){var r=it.callback;if(typeof r==="function"){it.callback=null,Fe=it.priorityLevel;var a=r(it.expirationTime<=t);t=pr.unstable_now(),typeof a==="function"?it.callback=a:it===vt(It)&&To(It),jl(t)}else To(It);it=vt(It)}if(it!==null)var o=!0;else{var i=vt(sn);i!==null&&Wl(Ul,i.startTime-t),o=!1}return o}finally{it=null,Fe=n,Po=!1}}var Ro=!1,Ao=null,sa=-1,Hu=5,Uu=-1;function Yu(){return pr.unstable_now()-Uu<Hu?!1:!0}function Ol(){if(Ao!==null){var e=pr.unstable_now();Uu=e;var t=!0;try{t=Ao(!0,e)}finally{t?ia():(Ro=!1,Ao=null)}}else Ro=!1}var ia;if(typeof Bu==="function")ia=function(){Bu(Ol)};else if(typeof MessageChannel<"u")Io=new MessageChannel,Hl=Io.port2,Io.port1.onmessage=Ol,ia=function(){Hl.postMessage(null)};else ia=function(){$u(Ol,0)};var Io,Hl;function Kl(e){Ao=e,Ro||(Ro=!0,ia())}function Wl(e,t){sa=$u(function(){e(pr.unstable_now())},t)}pr.unstable_IdlePriority=5;pr.unstable_ImmediatePriority=1;pr.unstable_LowPriority=4;pr.unstable_NormalPriority=3;pr.unstable_Profiling=null;pr.unstable_UserBlockingPriority=2;pr.unstable_cancelCallback=function(e){e.callback=null};pr.unstable_continueExecution=function(){jn||Po||(jn=!0,Kl(Yl))};pr.unstable_forceFrameRate=function(e){0>e||125<e?console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"):Hu=0<e?Math.floor(1000/e):5};pr.unstable_getCurrentPriorityLevel=function(){return Fe};pr.unstable_getFirstCallbackNode=function(){return vt(It)};pr.unstable_next=function(e){switch(Fe){case 1:case 2:case 3:var t=3;break;default:t=Fe}var n=Fe;Fe=t;try{return e()}finally{Fe=n}};pr.unstable_pauseExecution=function(){};pr.unstable_requestPaint=function(){};pr.unstable_runWithPriority=function(e,t){switch(e){case 1:case 2:case 3:case 4:case 5:break;default:e=3}var n=Fe;Fe=e;try{return t()}finally{Fe=n}};pr.unstable_scheduleCallback=function(e,t,n){var r=pr.unstable_now();switch(typeof n==="object"&&n!==null?(n=n.delay,n=typeof n==="number"&&0<n?r+n:r):n=r,e){case 1:var a=-1;break;case 2:a=250;break;case 5:a=1073741823;break;case 4:a=1e4;break;default:a=5000}return a=n+a,e={id:yx++,callback:t,priorityLevel:e,startTime:n,expirationTime:a,sortIndex:-1},n>r?(e.sortIndex=n,Fl(sn,e),vt(It)===null&&e===vt(sn)&&(la?(ju(sa),sa=-1):la=!0,Wl(Ul,n-r))):(e.sortIndex=a,Fl(It,e),jn||Po||(jn=!0,Kl(Yl))),e};pr.unstable_shouldYield=Yu;pr.unstable_wrapCallback=function(e){var t=Fe;return function(){var n=Fe;Fe=t;try{return e.apply(this,arguments)}finally{Fe=n}}}});function R(e){for(var t="https://reactjs.org/docs/error-decoder.html?invariant="+e,n=1;n<arguments.length;n++)t+="&args[]="+encodeURIComponent(arguments[n]);return"Minified React error #"+e+"; visit "+t+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function er(e,t){Lr(e,t),Lr(e+"Capture",t)}function Lr(e,t){Pa[e]=t;for(e=0;e<t.length;e++)qp.add(t[e])}function Bx(e){if(ms.call(Vu,e))return!0;if(ms.call(Wu,e))return!1;if(Fx.test(e))return Vu[e]=!0;return Wu[e]=!0,!1}function $x(e,t,n,r){if(n!==null&&n.type===0)return!1;switch(typeof t){case"function":case"symbol":return!0;case"boolean":if(r)return!1;if(n!==null)return!n.acceptsBooleans;return e=e.toLowerCase().slice(0,5),e!=="data-"&&e!=="aria-";default:return!1}}function jx(e,t,n,r){if(t===null||typeof t>"u"||$x(e,t,n,r))return!0;if(r)return!1;if(n!==null)switch(n.type){case 3:return!t;case 4:return t===!1;case 5:return isNaN(t);case 6:return isNaN(t)||1>t}return!1}function Ke(e,t,n,r,a,o,i){this.acceptsBooleans=t===2||t===3||t===4,this.attributeName=r,this.attributeNamespace=a,this.mustUseProperty=n,this.propertyName=e,this.type=t,this.sanitizeURL=o,this.removeEmptyString=i}function cc(e){return e[1].toUpperCase()}function dc(e,t,n,r){var a=Re.hasOwnProperty(t)?Re[t]:null;if(a!==null?a.type!==0:r||!(2<t.length)||t[0]!=="o"&&t[0]!=="O"||t[1]!=="n"&&t[1]!=="N")jx(t,n,a,r)&&(n=null),r||a===null?Bx(t)&&(n===null?e.removeAttribute(t):e.setAttribute(t,""+n)):a.mustUseProperty?e[a.propertyName]=n===null?a.type===3?!1:"":n:(t=a.attributeName,r=a.attributeNamespace,n===null?e.removeAttribute(t):(a=a.type,n=a===3||a===4&&n===!0?"":""+n,r?e.setAttributeNS(r,t,n):e.setAttribute(t,n)))}function ca(e){if(e===null||typeof e!=="object")return null;return e=Qu&&e[Qu]||e["@@iterator"],typeof e==="function"?e:null}function xa(e){if(Vl===void 0)try{throw Error()}catch(n){var t=n.stack.trim().match(/\n( *(at )?)/);Vl=t&&t[1]||""}return`
@@ -3916,7 +3794,7 @@ var cmOpenId=null;function cmTryOpen(){if(cmOpenId)window.dispatchEvent(new Even
 function cmWrapBridge(){let b=window.__cmBridge;if(!b||b.__w)return;b.__w=!0;["setJob","delJob","setTpl","delTpl","setCfg"].forEach((k)=>{let f=b[k];b[k]=(...a)=>{let r=f(...a);window.__cmSig=cmSig();return r}})}
 cmWrapBridge();
 
-var BUILD_V="1793004986010";try{document.documentElement.classList.add("sbt")}catch(_){}
+var BUILD_V="1793006728347";try{document.documentElement.classList.add("sbt")}catch(_){}
 function webUpd(auto,man){try{if(window.planner||!/^\d+$/.test(BUILD_V)||location.protocol==="file:")return;if(auto&&!man){let ae=document.activeElement;if(ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)||ae&&ae.isContentEditable||document.querySelector(".modal"))return}fetch("./version.json?t="+Date.now(),{cache:"no-store"}).then((r)=>r.ok?r.json():null).then((jv)=>{if(!jv||!jv.v||String(jv.v)===BUILD_V){if(man)j("최신 버전이에요");return}if(document.getElementById("upd-banner"))return;let d=document.createElement("div");d.id="upd-banner";d.style.cssText="position:fixed;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top,0px));z-index:9999;display:flex;align-items:center;gap:10px;padding:11px 12px 11px 16px;border-radius:14px;background:#2b2b33;color:#fff;font:600 14px/1.3 system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.3)";let t=document.createElement("span");t.style.flex="1";t.textContent="새 버전이 나왔어요"+(jv.app&&jv.app!==APP_VER?` · ${APP_VER} → ${jv.app}`:"");let go=document.createElement("button");go.type="button";go.textContent="업데이트";go.style.cssText="border:0;border-radius:10px;padding:7px 12px;background:#fff;color:#222;font:700 13px system-ui,sans-serif";go.onclick=()=>{go.textContent="적용 중…";fetch("./index.html",{cache:"reload"}).catch(()=>{}).then(()=>location.reload())};let x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label","닫기");x.style.cssText="border:0;background:none;color:#fff;font-size:20px;line-height:1;padding:0 4px;opacity:.7";x.onclick=()=>d.remove();d.append(t,go,x);document.body.appendChild(d)}).catch(()=>{if(man)j("업데이트를 확인하지 못했어요")})}catch(_){}}
 if(typeof window!=="undefined"){setTimeout(()=>webUpd(!1),700);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")webUpd(!0)});window.addEventListener("pageshow",()=>webUpd(!0));window.addEventListener("focus",()=>webUpd(!0));window.addEventListener("online",()=>webUpd(!0));setInterval(()=>webUpd(!0),90000)}
 (function(){if(typeof document==="undefined")return;var t=0,run=function(){clearTimeout(t);t=setTimeout(function(){requestAnimationFrame(function(){try{var m=document.querySelector('meta[name="theme-color"]');if(!m)return;var c=getComputedStyle(document.body).backgroundColor;if(c&&c!=="rgba(0, 0, 0, 0)")m.setAttribute("content",c)}catch(_){}})},60)};var mo=new MutationObserver(run);mo.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme","style","class"]});document.addEventListener("DOMContentLoaded",function(){mo.observe(document.body,{attributes:!0,attributeFilter:["class","style"]});run()});window.addEventListener("pageshow",run);window.addEventListener("focus",run);if(window.matchMedia)try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",run)}catch(_){}setInterval(run,4000)})();
@@ -3947,7 +3825,7 @@ function modOfPg(p){return p==="main"?"main":p==="comm"?"comm":p==="ledger"?"led
 /* 주소 이전 (04 2026-10-26): 앱 주소를 한 곳(DB_HOME)으로 모으고, 옛 주소에서 열면 데이터를 새 주소로 옮긴다.
    DB_ORG만 바꾸면 이사 시작. 옛 주소는 이름 대신 해시(DB_OLDH)로 알아본다 (개인 아이디를 코드에 두지 않음).
    옛 주소 저장소는 같은 파일을 계속 받아서 PC 옛 설치본 업데이트도 그대로 된다 (PC 화면은 file:이라 이사 창 없음). */
-var DB_ORG="kcy99011327-debug",DB_HOME="https://"+DB_ORG+".github.io/daterbase/",DB_OLDH="wfe23b";
+var DB_ORG="daterbase",DB_HOME="https://"+DB_ORG+".github.io/daterbase/",DB_OLDH="wfe23b";
 function dbHostH(s){let x=2166136261;for(const c of String(s)){x^=c.charCodeAt(0);x=Math.imul(x,16777619)}return(x>>>0).toString(36)}
 function dbSub(){return window.DB_SHARE?"share/":""}
 function dbMvLs(){let o={};try{for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k==="petal-planner:v1"||/tok|token|secret|dbg_gh|gcal|oauth|sp_|key/i.test(k))continue;let v=localStorage.getItem(k);if(v!=null&&v.length<200000)o[k]=v}}catch(_){}return o}
