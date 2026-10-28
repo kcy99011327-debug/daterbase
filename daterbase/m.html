@@ -4498,7 +4498,7 @@ var cmOpenId=null;function cmTryOpen(){if(cmOpenId)window.dispatchEvent(new Even
 function cmWrapBridge(){let b=window.__cmBridge;if(!b||b.__w)return;b.__w=!0;["setJob","delJob","setTpl","delTpl","setCfg"].forEach((k)=>{let f=b[k];b[k]=(...a)=>{let r=f(...a);window.__cmSig=cmSig();return r}})}
 cmWrapBridge();
 
-var BUILD_V="1793166463707";try{document.documentElement.classList.add("sbt")}catch(_){}
+var BUILD_V="1793169252287";try{document.documentElement.classList.add("sbt")}catch(_){}
 function webUpd(auto,man){try{if(window.planner||!/^\d+$/.test(BUILD_V)||location.protocol==="file:")return;if(auto&&!man){let ae=document.activeElement;if(ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)||ae&&ae.isContentEditable||document.querySelector(".modal"))return}fetch("./version.json?t="+Date.now(),{cache:"no-store"}).then((r)=>r.ok?r.json():null).then((jv)=>{if(!jv||!jv.v||String(jv.v)===BUILD_V){if(man)j("최신 버전이에요");return}if(document.getElementById("upd-banner"))return;let d=document.createElement("div");d.id="upd-banner";d.style.cssText="position:fixed;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top,0px));z-index:9999;display:flex;align-items:center;gap:10px;padding:11px 12px 11px 16px;border-radius:14px;background:#2b2b33;color:#fff;font:600 14px/1.3 system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.3)";let t=document.createElement("span");t.style.flex="1";t.textContent="새 버전이 나왔어요"+(jv.app&&jv.app!==APP_VER?` · ${APP_VER} → ${jv.app}`:"");let go=document.createElement("button");go.type="button";go.textContent="업데이트";go.style.cssText="border:0;border-radius:10px;padding:7px 12px;background:#fff;color:#222;font:700 13px system-ui,sans-serif";go.onclick=()=>{go.textContent="적용 중…";fetch("./index.html",{cache:"reload"}).catch(()=>{}).then(()=>location.reload())};let x=document.createElement("button");x.type="button";x.textContent="×";x.setAttribute("aria-label","닫기");x.style.cssText="border:0;background:none;color:#fff;font-size:20px;line-height:1;padding:0 4px;opacity:.7";x.onclick=()=>d.remove();d.append(t,go,x);document.body.appendChild(d)}).catch(()=>{if(man)j("업데이트를 확인하지 못했어요")})}catch(_){}}
 if(typeof window!=="undefined"){setTimeout(()=>webUpd(!1),700);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")webUpd(!0)});window.addEventListener("pageshow",()=>webUpd(!0));window.addEventListener("focus",()=>webUpd(!0));window.addEventListener("online",()=>webUpd(!0));setInterval(()=>webUpd(!0),90000)}
 (function(){if(typeof document==="undefined")return;var t=0,run=function(){clearTimeout(t);t=setTimeout(function(){requestAnimationFrame(function(){try{var m=document.querySelector('meta[name="theme-color"]');if(!m)return;var c=getComputedStyle(document.body).backgroundColor;if(c&&c!=="rgba(0, 0, 0, 0)")m.setAttribute("content",c)}catch(_){}})},60)};var mo=new MutationObserver(run);mo.observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme","style","class"]});document.addEventListener("DOMContentLoaded",function(){mo.observe(document.body,{attributes:!0,attributeFilter:["class","style"]});run()});window.addEventListener("pageshow",run);window.addEventListener("focus",run);if(window.matchMedia)try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",run)}catch(_){}setInterval(run,4000)})();
@@ -8966,7 +8966,7 @@ var GH_FEAT=[
  ["다이어리","메인","일기 하루 기록 꾸미기",{go:"diary"}],
  ["플래너 달력","플래너","캘린더 달력 월간 주간 일정",{go:"home"}],
  ["사이드 타임테이블","플래너","타임테이블 하루 시간 블록 타임라인",{go:"home",sel:".dayrail, .dayrail-tab, .dayrail-fab"}],
- ["정리창 (할 일 · 일정 · 지출 적기)","플래너","할 일 추가 투두 일정 추가 지출 적기 간편 입력 말로 적기",{sel:".qbar__box"}],
+ ["정리창 (할 일 · 일정 · 지출 적기)","플래너","할 일 추가 투두 일정 추가 지출 적기 간편 입력 말로 적기",{go:"home",sel:".qbar__box"}],
  ["커미션 목록","업무 › 커미션","의뢰 신청 관리 진행 커미션",{go:"comm",sel:".cm"}],
  ["외주","업무 › 외주","외주 원고 웹툰 마감 컷 페이지",{go:"out",sel:".oj-top"}],
  ["레코드 갤러리","레코드","받은 그림 작품 모음 커미션 받은",{go:"gallery"}],
@@ -8981,14 +8981,14 @@ var GH_FEAT=[
  ["음악·영상 연결","설정 › 공통","스포티파이 spotify 유튜브 음악 영상 대시보드·다이어리에 링크로 붙인 음악을 어떻게 재생할지 정해요. 연결하지 않아도 링크는 그대로 재생돼요. 유",{set:["공통","음악·영상 연결"]}],
  ["전체 테마 · 노트 줄","설정 › 공통","테마 색 다크 모드 밤 어둡게 모양 노트 줄 라이트 모든 탭에 적용돼요. 탭별로 다르게 하려면 각 탭 설정에서 켜요.모양둥근 블록노트 줄모드시스템라이트다크테마 ",{set:["공통","전체 테마"]}],
  ["기본 색","설정 › 공통","팔레트 색 파스텔 라벨·분류·트래커·디데이·메모지·가계부 항목에서 고르는 색이 이 팔레트로 통일돼요.기존 색도 이 팔레트로 일",{set:["공통","기본 색"]}],
- ["시작 화면","설정 › 공통","타이틀 화면 인트로 오랜만에 켰을 때만 타이틀 화면이 잠깐 떠요. 누르면 바로 넘어가요.끄기켤 때마다3시간6시간12시간하루지금 ",{set:["공통","시작 화면"]}],
+ ["켤 때 타이틀 화면","설정 › 공통","시작 화면 타이틀 화면 인트로 오랜만에 켰을 때만 타이틀 화면이 잠깐 떠요. 누르면 바로 넘어가요.끄기켤 때마다3시간6시간12시간하루지금 ",{set:["공통","켤 때 타이틀 화면"]}],
  ["기능 켜고 끄기","설정 › 공통","탭 숨기기 메뉴 정리 모드 탭 켜고 끄기 쓰는 방식에 맞는 모드를 고르면 한 번에 켜고 꺼져요. 꺼도 데이터는 지워지지 않고 숨기기만 해요.📅일정·할",{set:["공통","기능 켜고 끄기"]}],
- ["오늘 화면 블록","설정 › 공통","오늘 화면 블록 순서 기능 켜고 끄기쓰는 방식에 맞는 모드를 고르면 한 번에 켜고 꺼져요. 꺼도 데이터는 지워지지 않고 숨기기만 ",{set:["공통","오늘 화면 블록"]}],
+ ["오늘 화면 블록","설정 › 공통","오늘 화면 블록 순서 기능 켜고 끄기쓰는 방식에 맞는 모드를 고르면 한 번에 켜고 꺼져요. 꺼도 데이터는 지워지지 않고 숨기기만 ",{set:["공통","기능 켜고 끄기"]}],
  ["디데이","설정 › 공통","d-day 디데이 기념일 모든 탭이 같은 목록을 써요. ＋ 버튼이나 우클릭으로 화면에 붙여요.디데이 목록 편집",{set:["공통","디데이"]}],
  ["글자 크기 · 글꼴","설정 › 공통","폰트 글씨 크기 글꼴 글자 크기100%작게보통크게아주 크게특대최대글꼴기본 글꼴가나다 ABC 123 · 오늘도 화이팅!적용 설치된 ",{set:["공통","글자 크기"]}],
  ["하루 결산 카드","설정 › 플래너","하루 피드백 피드백 카드 기분 하루 결산 정해 둔 시간이 되면 오늘 할 일·트래커·작업 시간·지출을 모아 피드백 카드가 떠요. 기분과 한 줄 메모를 ",{set:["플래너","=오늘 화면 구성"]}],
- ["캘린더 꾸미기","설정 › 공통","달력 꾸미기 날짜 글자색 격자 날짜 글자색 · 격자 · 달력 글자달력 위 ‘보기’ 열기",{set:["공통","캘린더 꾸미기"]}],
- ["해상도","설정 › 공통","창 크기 해상도 확대 축소 게임처럼 해상도를 골라 창 크기를 고정할 수 있어요. PC 프로그램에서는 창이 그 크기로 맞춰지고 고정돼요.",{set:["공통","해상도"]}],
+ ["캘린더 꾸미기","설정 › 공통","달력 꾸미기 날짜 글자색 격자 날짜 글자색 · 격자 · 달력 글자달력 위 ‘보기’ 열기",{set:["공통","캘린더 꾸미기"],alt:{set:["플래너","캘린더 꾸미기"]}}],
+ ["해상도","설정 › 공통","창 크기 해상도 확대 축소 게임처럼 해상도를 골라 창 크기를 고정할 수 있어요. PC 프로그램에서는 창이 그 크기로 맞춰지고 고정돼요.",{set:["공통","해상도"],pc:1}],
  ["개발자 도구","설정 › 공통","개발자 제보함 개발 메모 점검 제보함·문의 알림·개발 메모와 화면 점검 도구를 한곳에 모아요. 늘 켜져 있어요: 왼쪽 아래 🛠 (Ctrl+",{set:["공통","개발자 도구"]}],
  ["아이콘","설정 › 공통","앱 아이콘 홈 화면 홈 화면 아이콘 이미지 고르기",{set:["공통","아이콘"]}],
  ["입력 학습","설정 › 공통","정리창 학습 고친 내용 기억 정리창 결과를 고쳐서 추가하면 그 고친 내용을 기억해요. 다음에 같은 표현을 적으면 왼쪽이 오른쪽처럼 바뀌어",{set:["공통","입력 학습"]}],
@@ -9011,29 +9011,37 @@ var GH_FEAT=[
  ["받은 곳","설정 › 커미션","크레페 포스타입 카톡 받은 곳 플랫폼 추가",{set:["커미션","받은 곳"]}],
  ["신청서 양식","설정 › 커미션","신청서 폼 붙여넣기 양식 받는 신청서 양식을 붙여 두면, 신청서를 번호대로 나눌 때 각 번호에 이 양식의 항목 이름이 붙어요. 번호가",{set:["커미션","신청서 양식"]}],
  ["답장 템플릿","설정 › 커미션","답장 메시지 템플릿 dm 입금 확인 자주 보내는 답장을 저장해 두고 한 번에 복사해요. 수정 창의 ‘언제 쓰나요?’를 정해 두면 그 순간(입금 ",{set:["커미션","답장 템플릿"]}],
- ["수수료","설정 › 커미션","수수료 플랫폼 퍼센트 크레페%금액별카톡%기타%받은 곳마다 수령액에서 뺄 비율이에요. 비워 두면 수수료 없음. ‘금액별’을 켜면 기",{set:["커미션","수수료"]}],
+ ["수수료","설정 › 커미션","수수료 플랫폼 퍼센트 크레페%금액별카톡%기타%받은 곳마다 수령액에서 뺄 비율이에요. 비워 두면 수수료 없음. ‘금액별’을 켜면 기",{set:["커미션","수수료"],alt:{set:["커미션","받은 곳"]}}],
  ["플래너·가계부와 연결","설정 › 커미션","입금 자동 가계부 일정 연결 진행 중 커미션의 마감일을 캘린더·먼슬리에 표시완료한 커미션을 가계부 수입(커미션)에 자동 기록 — 2000",{set:["커미션","플래너·가계부와 연결"]}],
  ["커미션 백업 · 가져오기","설정 › 커미션","csv 커미션 백업 가져오기 목록 CSV옛 커미션 작업실 백업(ZIP) 가져오기옛 커미션 작업실의 설정 → 전체 백업(ZIP)으로 받은 ",{set:["커미션","백업·가져오기"]}],
- ["이미지 저장","설정 › 레코드","이미지 저장 사진 저장소 새로 올리는 이미지원본 그대로2000px로 줄이기2000px로 줄이면 가로·세로 중 긴 쪽을 2000px 이",{set:["레코드","이미지 저장"]}],
+ ["이미지 저장","설정 › 레코드","이미지 저장 사진 저장소 새로 올리는 이미지원본 그대로2000px로 줄이기2000px로 줄이면 가로·세로 중 긴 쪽을 2000px 이",{set:["레코드","이미지 저장"],alt:{set:["공통","용량 줄이기"]}}],
  ["가계부 분류 편집","설정 › 가계부","카테고리 분류 편집 지출 분류수입 분류원원원원원원원원분류마다 한 달 예산을 적으면 '분류별 지출'에 쓴 돈 / 예산으로 보여요 ",{set:["가계부","분류 편집"]}],
  ["가계부 구성","설정 › 가계부","가계부 구성 블록 가계부에 보일 칸을 고르세요. 끈 칸은 숨기기만 하고 안의 기록은 그대로 남아요. 칸 순서와 너비는 가계부 ",{set:["가계부","가계부 구성"]}],
 ["사용 통계","설정 › 공통","익명 사용 통계 보내기켜기끄기",{set:["공통","사용 통계"]}],
 ["사용 경험 설문","설정 › 공통","9가지 질문에 답하면 다음 업데이트에 반영해요. 1분이면 돼요.설문 열기",{set:["공통","사용 경험 설문"]}],
-["메인 탭 테마","설정 › 메인","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["메인","=테마"]}],
+["메인 탭 테마","설정 › 메인","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["메인","=테마"],alt:{set:["공통","전체 테마"]}}],
 ["플래너 탭 테마","설정 › 플래너","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["플래너","=테마"]}],
 ["빼먹은 기록","설정 › 플래너","가계부·일기처럼 자꾸 빼먹는 기록을 모아 알려 주는 블록이에요. 폰에서는 오늘 화면 맨 위에 보여요.오늘 화면에 보이기켜기끄기",{set:["플래너","빼먹은 기록"]}],
 ["커미션 탭 테마","설정 › 커미션","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["커미션","=테마"]}],
-["시안비","설정 › 커미션","새 커미션 등록 때 받은 금액을원으로 시작",{set:["커미션","시안비"]}],
-["레코드 탭 테마","설정 › 레코드","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["레코드","=테마"]}],
+["시안비","설정 › 커미션","새 커미션 등록 때 받은 금액을원으로 시작",{set:["커미션","시안비"],alt:{set:["커미션","가격 방식"]}}],
+["레코드 탭 테마","설정 › 레코드","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["레코드","=테마"],alt:{set:["공통","전체 테마"]}}],
 ["가계부 탭 테마","설정 › 가계부","이 탭만 다른 테마전체 테마따로 설정모드시스템라이트다크테마 색",{set:["가계부","=테마"]}],
 ["새로 만들 때 기본 라벨","설정 › 플래너","기본 라벨 새 일정 할 일 처음 라벨 구글 캘린더 라벨",{set:["플래너","새로 만들 때 기본 라벨"]}],
 ["오늘 화면 템플릿","설정 › 플래너","홈 배치 저장 템플릿 바꿔 쓰기",{set:["플래너","오늘 화면 템플릿"]}],
-["스티커 · 메모지","플래너 › 왼쪽 사이드바","스티커 붙이기 메모지 이미지 올리기 꾸미기 회전 크기 옮기기 위치 고정 달력 꾸미기 사진 붙이기",{go:"home",sel:".sb-stk"}],
+["스티커 · 메모지","왼쪽 아래 내 계정 메뉴","스티커 붙이기 메모지 이미지 올리기 꾸미기 회전 크기 옮기기 위치 고정 달력 꾸미기 사진 붙이기",{go:"home",sel:".sb-stk, .sb-me"}],
 ["트래커","플래너","트래커 습관 체크 루틴 매일 물 마시기 운동 기록",{go:"home",sel:".trk-add"}],
 ["월간 기록","플래너","월간 기록 도장판 한 달 한눈 트래커 작업 도장 모아 보기",{go:"stats"}],
-["작업 도장 · 타이머","플래너","작업 시간 타이머 집중 작업 도장 공부 시간 기록 재기",{go:"home",sel:".wd-gear"}],
-].map(([name,where,kw,to])=>[name,where,kw+" "+(GH_KW_MORE[name]||""),to]).map(([name,where,kw,to])=>({name,where,kw,to})).filter((f)=>!window.DB_SHARE||!(/^(캡처로 가계부 쓰기|개발자 모드|개발자 도구|시안비)$/.test(f.name)||f.name==="외주"&&!dbT("out")));
-function ghFeatOn(x){let w=String(x.where||""),to=x.to||{},g=to.go||"",k=/업무|커미션|외주/.test(w)||/^(comm|out)$/.test(g)?"comm":/레코드/.test(w)||/^(gallery|blog|arc)$/.test(g)?"gallery":/가계부/.test(w)||g==="ledger"||to.act==="cap"?"ledger":/^메인|› 메인/.test(w)||/^(main|diary)$/.test(g)?"main":"";return!k||tabOn(k)}
+["작업 도장 · 타이머","플래너","작업 시간 타이머 집중 작업 도장 공부 시간 기록 재기",{go:"home",sel:".wd-gear",alt:{set:["플래너","=오늘 화면 구성"]}}],
+["언어 · Language · 言語","설정 › 공통","언어 영어 일본어 english japanese 日本語 한국어 korean 번역",{set:["공통","언어"]}],
+["＋ 버튼 메뉴","설정 › 공통","플러스 버튼 더하기 메뉴 항목 보이기 숨기기",{set:["공통","＋ 버튼 메뉴"]}],
+["일 탭","설정 › 공통","하는 일 업무 커미션 외주 회사 일 개인 행정",{set:["공통","=일 탭"]}],
+["용량 줄이기","설정 › 공통","사진 용량 이미지 크기 줄이기 webp 저장 공간",{set:["공통","용량 줄이기"]}],
+["설정 초기화","설정 › 공통","설정 처음으로 되돌리기 리셋 초기화",{set:["공통","설정 초기화"]}],
+["예시 지우기","설정 › 공통 › 데이터","예시 일정 샘플 지우기 새로 시작 처음부터",{set:["공통","=데이터"]}],
+["튜토리얼 다시 보기","설정 › 공통 › 도움","튜토리얼 처음 안내 다시 보기 온보딩",{set:["공통","도움"]}],
+["업데이트 확인","설정 › 공통 › 도움","업데이트 새 버전 버전 확인 최신",{set:["공통","도움"]}],
+].map(([name,where,kw,to])=>[name,where,kw+" "+(GH_KW_MORE[name]||""),to]).map(([name,where,kw,to])=>({name,where,kw,to})).filter((f)=>!window.DB_SHARE||!(/^(캡처로 가계부 쓰기|개발자 모드|개발자 도구|시안비|일 탭)$/.test(f.name)||f.name==="외주"&&!dbT("out")));
+function ghFeatOn(x){if(x&&x.to&&x.to.pc&&innerWidth<900)return!1;let w=String(x.where||""),to=x.to||{},g=to.go||"",k=/업무|커미션|외주/.test(w)||/^(comm|out)$/.test(g)?"comm":/레코드/.test(w)||/^(gallery|blog|arc)$/.test(g)?"gallery":/가계부/.test(w)||g==="ledger"||to.act==="cap"?"ledger":/^메인|› 메인/.test(w)||/^(main|diary)$/.test(g)?"main":"";return!k||tabOn(k)}
 var GH_SUG=["답장 템플릿","백업","캡처로 가계부"];
 var GH_CHO="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",ghCho=(t)=>[...t].map((c)=>{let k=c.charCodeAt(0)-0xAC00;return k>=0&&k<11172?GH_CHO[Math.floor(k/588)]:c}).join(""),ghIsCho=(t)=>/^[ㄱ-ㅎ]+$/.test(t);
 var GH_ENDS=/\s*(좀\s*)?(해\s*줘|해\s*주세요|해\s*줄래|해\s*봐|하고\s*싶어|하려면|하는\s*법|어떻게\s*(해|하지|하나요|돼)?|어디\s*(야|있어|에\s*있어)?|어딨어|보여\s*줘|열어\s*줘|찾아\s*줘|켜\s*줘|꺼\s*줘|바꿔\s*줘|줘|주세요|줄래|할래|싶어)?[?!.~\s]*$/,GH_PART=/(을|를|은|는|이|가|으로|로|에서|에|도|좀)$/;
@@ -9147,14 +9155,14 @@ var ghEsc=(t)=>String(t==null?"":t).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&l
 var SET_MV={"공통|디데이":{act:()=>ddManage()},"공통|캘린더 꾸미기":{act:()=>calViewOpen()},"공통|개발자 도구":{act:()=>devOpen()},"공통|개발자 모드":{act:()=>devOpen()},"공통|입력 학습":{act:()=>window.dispatchEvent(new Event("db-nll"))},"공통|사용 경험 설문":["공통","=도움"],"공통|도움말":["공통","=도움"],"공통|도움말 · 제보·문의":["공통","=도움"],"공통|전체 테마":["공통","테마·색"],"공통|전체 테마 · 노트 줄":["공통","테마·색"],"공통|기본 색":["공통","테마·색"],
 "메인|이 페이지 꾸미기":{act:()=>window.dispatchEvent(new Event("db-mpc"))},"플래너|트래커 그림":{act:()=>window.dispatchEvent(new Event("db-pb"))},"플래너|보기":{act:()=>calViewOpen()},"플래너|빼먹은 기록":["플래너","=오늘 화면 구성"],"플래너|오늘 화면 템플릿":["플래너","=오늘 화면 구성"],"플래너|기본 라벨":["플래너","=라벨"],"플래너|새로 만들 때 기본 라벨":["플래너","=라벨"],
 "커미션|마감 기한":["커미션","진행 상태"],"커미션|수수료":["커미션","받은 곳"],"커미션|백업·가져오기":["공통","=데이터"],"레코드|이미지 저장":["공통","용량 줄이기"],"레코드|蒐:集 연결":["공통","蒐:集 연결"]};
-function setMv(tab,h){if(!h)return null;if(window.DB_SHARE){if(innerWidth<900&&tab==="메인"&&/이 페이지 꾸미기/.test(h))return SET_MV["메인|이 페이지 꾸미기"];return null}let t=tab==="업무"?"커미션":tab,k=String(h).replace(/^=/,""),m=SET_MV[t+"|"+k];if(!m&&/^=?테마$/.test(h))m=["공통","테마·색"];if(!m&&(t==="메인"||t==="레코드"))m=["공통",h];if(!m)return null;return m.act?m:{tab:m[0],h:m[1]}}
+function setMv(tab,h){if(!h)return null;if(window.DB_SHARE){if(tab==="메인"&&/이 페이지 꾸미기/.test(h))return SET_MV["메인|이 페이지 꾸미기"];return null}let t=tab==="업무"?"커미션":tab,k=String(h).replace(/^=/,""),m=SET_MV[t+"|"+k];if(!m&&/^=?테마$/.test(h))m=["공통","테마·색"];if(!m&&(t==="메인"||t==="레코드"))m=["공통",h];if(!m)return null;return m.act?m:{tab:m[0],h:m[1]}}
 function ghWhere(x){let to=x&&x.to||{},w=x&&x.where||"";if(to.set){let m=setMv(to.set[0],to.set[1]);if(m)w=m.act?"바로 열기":"설정 › "+m.tab}return ghWh(w)}
 async function ghGo(to,label){let w=(ms)=>new Promise((r)=>setTimeout(r,ms)),el=null;
   if(to.act){({cap:()=>{obGoApp("ledger").then(()=>setTimeout(()=>window.dispatchEvent(new CustomEvent("lg-cap",{detail:{}})),250))},kit:()=>rcKit(),help:()=>helpOpen(),bug:()=>bugOpen()})[to.act]();return}
-  if(to.gc){if(innerWidth<900){await obGoSet("플래너");el=obFindH("구글 캘린더 연결")}else{await obGoApp("home");el=document.querySelector(".dayrail [aria-label*='설정'], .dayrail__set, .dayrail .icon-btn:last-child")||document.querySelector(".dayrail");label=label+" (타임테이블 ⚙ 안에 있어요)"}}
+  if(to.gc){if(innerWidth<900){await obGoSet("플래너");el=obFindH("구글 캘린더 연결")||await ghOpenH("구글 캘린더 연결")}else{await obGoApp("home");el=document.querySelector(".dayrail [aria-label*='설정'], .dayrail__set, .dayrail .icon-btn:last-child")||document.querySelector(".dayrail");label=label+" (타임테이블 ⚙ 안에 있어요)"}}
   else if(to.set){let mv=setMv(to.set[0],to.set[1]);if(mv&&mv.act){mv.act();return}let t0=mv?mv.tab:to.set[0],h0=mv?mv.h:to.set[1];await obGoSet(t0);await w(150);el=obFindH(h0)||await ghOpenH(h0);if(el)el=el.closest(".cm-set, section.manage")||el}
   else{if(to.go)await obGoApp(to.go);await w(200);if(to.sel)el=[...document.querySelectorAll(to.sel)].find((x)=>obVis(x))||null}
-  if(el)ghSpot(el,label)}
+  if(!el&&to.alt)return ghGo(to.alt,label);if(el)ghSpot(el,label)}
 /* 폰 설정: 접힌 묶음(data-shut) 안의 제목이면 그 묶음을 펼친 뒤 찾음 */
 async function ghOpenH(h){let r=obSetRoot();if(!r)return null;let ex=h[0]==="=",t=ex?h.slice(1):h,e=[...r.querySelectorAll("h2,h3,h4")].find((x)=>ex?x.textContent.trim()===t:x.textContent.trim().includes(t));if(!e)return null;let g=e.closest("[data-shg]");if(g&&g.hasAttribute("data-shut")){try{mfPut("s:"+g.getAttribute("data-shg"),!0);msfApply(g.parentElement)}catch(_){}await new Promise((z2)=>setTimeout(z2,200))}return obVis(e)?e:null}
 function ghSpot(el,label){ghSpotOff();el.scrollIntoView({block:"center",behavior:"smooth"});setTimeout(()=>{if(!el.isConnected)return;el.classList.add("gh-spot");let r=el.getBoundingClientRect(),k=fxK(),h=document.createElement("div");h.className="gh-here";h.textContent=label;document.body.append(h);let top=r.top/k-38;if(top<8)top=r.bottom/k+8;h.style.top=Math.min(innerHeight/k-40,top)+"px";h.style.left=Math.max(8,Math.min(innerWidth/k-h.offsetWidth-8,r.left/k))+"px";ghSpotOff.cur={el,h};ghSpotOff.t=setTimeout(ghSpotOff,4500)},380)}
